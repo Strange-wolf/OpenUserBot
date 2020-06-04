@@ -1,6 +1,6 @@
 # Copyright (C) 2019 The Raphielscape Company LLC.
 #
-# Licensed under the Raphielscape Public License, Version 1.c (the "License");
+# Licensed under the Raphielscape Public License, Version 1.d (the "License");
 # you may not use this file except in compliance with the License.
 #
 """ Userbot module for changing your Telegram profile details. """
@@ -179,19 +179,19 @@ async def remove_profilepic(delpfp):
 
 
 CMD_HELP.update({
-    "profile":
+    "Profilepic":
     ".username <new_username>\
 \nUsage: Changes your Telegram username.\
-\n\n.name <firstname> or .name <firstname> <lastname>\
+\n\n`.name` <firstname> or `.name` <firstname> <lastname>\
 \nUsage: Changes your Telegram name.(First and last name will get split by the first space)\
-\n\n.setpfp\
+\n\n`.setpfp`\
 \nUsage: Reply with .setpfp to an image to change your Telegram profie picture.\
-\n\n.setbio <new_bio>\
+\n\n`.setbio` <new_bio>\
 \nUsage: Changes your Telegram bio.\
-\n\n.delpfp or .delpfp <number>/<all>\
+\n\n`.delpfp` or `.delpfp` <number>/<all>\
 \nUsage: Deletes your Telegram profile picture(s).\
-\n\n.reserved\
+\n\n`.reserved`\
 \nUsage: Shows usernames reserved by you.\
-\n\n.count\
+\n\n`.count`\
 \nUsage: Counts your groups, chats, bots etc..."
 })

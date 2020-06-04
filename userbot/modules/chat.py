@@ -1,6 +1,6 @@
 # Copyright (C) 2019 The Raphielscape Company LLC.
 #
-# Licensed under the Raphielscape Public License, Version 1.c (the "License");
+# Licensed under the Raphielscape Public License, Version 1.d (the "License");
 # you may not use this file except in compliance with the License.
 """ Userbot module containing userid, chatid and log commands"""
 
@@ -8,6 +8,8 @@ from asyncio import sleep
 from userbot import CMD_HELP, BOTLOG, BOTLOG_CHATID, bot
 from userbot.events import register
 from userbot.modules.admin import get_user_from_event
+from telethon.utils import pack_bot_file_id 
+from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantsBots
 
 
 @register(outgoing=True, pattern="^.userid$")
@@ -75,7 +77,7 @@ async def log(log_text):
 @register(outgoing=True, pattern="^.kickme$")
 async def kickme(leave):
     """ Basically it's .kickme command """
-    await leave.edit("Nope, no, no, I go away")
+    await leave.edit("Master left the chat 😛")
     await leave.client.kick_participant(leave.chat_id, 'me')
 
 
@@ -152,25 +154,55 @@ async def sedNinjaToggle(event):
         await event.edit("`Successfully disabled ninja mode for Regexbot.`")
         await sleep(1)
         await event.delete()
+        
+@register(outgoing=True, pattern="^.getbot(?: |$)(.*)")
+async def _(event):
+    if event.fwd_from:
+        return
+    mentions = "**Bots in this Channel**: \n"
+    input_str = event.pattern_match.group(1)
+    to_write_chat = await event.get_input_chat()
+    chat = None
+    if not input_str:
+        chat = to_write_chat
+    else:
+        mentions = "Bots in {} channel: \n".format(input_str)
+        try:
+            chat = await bot.get_entity(input_str)
+        except Exception as e:
+            await event.edit(str(e))
+            return None
+    try:
+        async for x in bot.iter_participants(chat, filter=ChannelParticipantsBots):
+            if isinstance(x.participant, ChannelParticipantAdmin):
+                mentions += "\n ⚜️ [{}](tg://user?id={}) `{}`".format(x.first_name, x.id, x.id)
+            else:
+                mentions += "\n [{}](tg://user?id={}) `{}`".format(x.first_name, x.id, x.id)
+    except Exception as e:
+        mentions += " " + str(e) + "\n"
+    await event.edit(mentions)
+    
 
 
 CMD_HELP.update({
     "chat":
-    ".chatid\
+    "`.chatid`\
 \nUsage: Fetches the current chat's ID\
-\n\n.userid\
+\n\n`.userid`\
 \nUsage: Fetches the ID of the user in reply, if its a forwarded message, finds the ID for the source.\
-\n\n.log\
+\n\n`.log`\
 \nUsage: Forwards the message you've replied to in your bot logs group.\
-\n\n.kickme\
+\n\n`.kickme`\
 \nUsage: Leave from a targeted group.\
-\n\n.unmutechat\
+\n\n`.unmutechat`\
 \nUsage: Unmutes a muted chat.\
-\n\n.mutechat\
+\n\n`.mutechat`\
 \nUsage: Allows you to mute any chat.\
-\n\n.link <username/userid> : <optional text> (or) reply to someone's message with .link <optional text>\
+\n\n`.link` <username/userid> : <optional text> (or) reply to someone's message with .link <optional text>\
 \nUsage: Generate a permanent link to the user's profile with optional custom text.\
-\n\n.regexninja on/off\
+\n\n`.regexninja` on/off\
 \nUsage: Globally enable/disables the regex ninja module.\
-\nRegex Ninja module helps to delete the regex bot's triggering messages."
+\nRegex Ninja module helps to delete the regex bot's triggering messages.\
+\n\n`.getbot`\
+\nUsage: Get the Bots in any chat."
 })

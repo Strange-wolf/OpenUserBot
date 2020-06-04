@@ -1,6 +1,6 @@
 # Copyright (C) 2019 The Raphielscape Company LLC.
 #
-# Licensed under the Raphielscape Public License, Version 1.c (the "License");
+# Licensed under the Raphielscape Public License, Version 1.d (the "License");
 # you may not use this file except in compliance with the License.
 #
 """ Userbot module for executing code and terminal commands from Telegram. """
@@ -156,7 +156,7 @@ async def terminal_runner(term):
         await term.edit("`That's a dangerous operation! Not Permitted!`")
         return
 
-    process = await asyncio.create_subprocess_shell(
+    process = await asyncio.create_subprocess_exec(
         command,
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE)
@@ -177,7 +177,7 @@ async def terminal_runner(term):
         remove("output.txt")
         return
 
-    if uid is 0:
+    if uid == 0:
         await term.edit("`" f"{curruser}:~# {command}" f"\n{result}" "`")
     else:
         await term.edit("`" f"{curruser}:~$ {command}" f"\n{result}" "`")
@@ -189,8 +189,8 @@ async def terminal_runner(term):
         )
 
 
-CMD_HELP.update({"eval": ".eval 2 + 3\nUsage: Evalute mini-expressions."})
+CMD_HELP.update({"eval": "`.eval` 2 + 3\nUsage: Evalute mini-expressions."})
 CMD_HELP.update(
-    {"exec": ".exec print('hello')\nUsage: Execute small python scripts."})
+    {"exec": "`.exec` print('hello')\nUsage: Execute small python scripts."})
 CMD_HELP.update(
-    {"term": ".term ls\nUsage: Run bash commands and scripts on your server."})
+    {"term": "`.term` ls\nUsage: Run bash commands and scripts on your server."})
