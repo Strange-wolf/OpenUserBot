@@ -133,16 +133,16 @@ async def pipcheck(pip):
 async def amireallyalive(alive):
     """ For .alive command, check if the bot is running.  """
     await alive.edit(
-                     "`You have been infected by the Mercer-Virus` \n"
+                     "`You have been infected by zombie virus ` \n"
                      "`System Online... ` \n"
                      "`Weapons Engaged.. ` \n" 
                      f"Telethon version: {version.__version__} \n"
                      f"Python: {python_version()} \n"
                      f"------------The Prototype------------ \n"
-                     f"Codename: Arsonist \n"
-                     f"Origin: https://t.me/Alex_mercer09 \n"
+                     f"Codename: Stranger \n"
+                     f"Origin: https://t.me/GarvitM \n"
                      f"Owner: {DEFAULTUSER} \n"
-                     f"Location: IN "
+                     f"Location: In "
                      )
 
 @register(outgoing=True, pattern="^.aliveu")
